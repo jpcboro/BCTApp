@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace BCTApp
@@ -22,6 +23,12 @@ namespace BCTApp
         {
             base.OnAppearing();
             
+            var hasUserSaved = Preferences.ContainsKey("email");
+            if (hasUserSaved)
+            {
+                entryEmail.Text = Preferences.Get("email", String.Empty);
+                entryPassword.Text = Preferences.Get("password", String.Empty);
+            }
             
         }
 
@@ -33,7 +40,10 @@ namespace BCTApp
             string uid = await _firebaseAuth.LoginWithEmailAndPassword(userEmail, userPassword);
             if (uid != string.Empty)
             {
-                await  Navigation.PushAsync(new MapPage());
+                Preferences.Set("email", userEmail);
+                Preferences.Set("password", userPassword);
+                
+                await  Navigation.PushAsync(new MapPage(uid));
 
             }
         }

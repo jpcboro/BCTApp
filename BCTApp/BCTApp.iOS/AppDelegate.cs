@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+
 using UIKit;
 
 namespace BCTApp.iOS
@@ -23,6 +24,9 @@ namespace BCTApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+           
+            //var renderer = new TKCustomMapRenderer();
+            Xamarin.FormsGoogleMaps.Init("AIzaSyAZ45Q1F_HqUULM7bIbNJ85_f48AYBZeEU");
             Firebase.Core.App.Configure();
             LoadApplication(new App());
 
