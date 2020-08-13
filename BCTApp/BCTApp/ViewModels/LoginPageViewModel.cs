@@ -14,7 +14,7 @@ namespace BCTApp
 
         private IFirebaseAuthentication _firebaseAuth;
         
-        public  DelegateCommand LoginCommand => new DelegateCommand(async ()=> await ExecuteLoginCommandAsync());
+        public  DelegateCommand LoginCommand => new DelegateCommand( ()=>  ExecuteLoginCommandAsync());
 
         private string _email;
 

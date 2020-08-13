@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Behaviors" />
     <Folder Include="Converters" />
-    <Folder Include="Helpers" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +29,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Dialogs\TestDialog.xaml">
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
@@ -42,6 +45,9 @@
     </Compile>
     <Compile Update="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\TestDialog.xaml.cs">
+      <DependentUpon>TestDialog.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:gmaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              x:Class="BCTApp.MapPage">
     <ContentPage.Padding>
@@ -14,18 +16,18 @@
                    MyLocationEnabled="True">
         
         </gmaps:Map>
-        <Grid InputTransparent="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <StackLayout Grid.Row="1" BackgroundColor="Chocolate">
-                <Label Text="Test Label" ></Label>
-
-            </StackLayout>
-
-        </Grid>
+        <!-- <Grid InputTransparent="True"> -->
+        <!--     <Grid.RowDefinitions> -->
+        <!--         <RowDefinition Height="*"></RowDefinition> -->
+        <!--         <RowDefinition Height="Auto"></RowDefinition> -->
+        <!--         <RowDefinition Height="*"></RowDefinition> -->
+        <!--     </Grid.RowDefinitions> -->
+        <!--     <StackLayout Grid.Row="1" BackgroundColor="Chocolate"> -->
+        <!--         <Label Text="Test Label" ></Label> -->
+        <!-- -->
+        <!--     </StackLayout> -->
+        <!-- -->
+        <!-- </Grid> -->
        
        
        

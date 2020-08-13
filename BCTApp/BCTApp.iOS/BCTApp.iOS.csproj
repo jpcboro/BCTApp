@@ -140,7 +140,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="GoogleService-Info.plist" />
     <BundleResource Include="Resources\hiveImg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GoogleService-Info.plist" />
   </ItemGroup>
 </Project>
