@@ -7,7 +7,7 @@ using Firebase.Database.Query;
 
 namespace BCTApp
 {
-    public class FirebaseHelper
+    public class FirebaseHelper : IFirebaseHelper
     {
         FirebaseClient firebase = new FirebaseClient("https://bctappmap.firebaseio.com/");
         

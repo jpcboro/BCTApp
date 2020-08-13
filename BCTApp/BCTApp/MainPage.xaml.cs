@@ -43,7 +43,7 @@ namespace BCTApp
                 Preferences.Set("email", userEmail);
                 Preferences.Set("password", userPassword);
                 
-                await  Navigation.PushAsync(new MapPage(uid));
+                // await  Navigation.PushAsync(new MapPage(uid));
 
             }
         }

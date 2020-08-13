@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
-
+using Prism;
+using Prism.Ioc;
 using UIKit;
 
 namespace BCTApp.iOS
@@ -28,9 +29,18 @@ namespace BCTApp.iOS
             //var renderer = new TKCustomMapRenderer();
             Xamarin.FormsGoogleMaps.Init("AIzaSyAZ45Q1F_HqUULM7bIbNJ85_f48AYBZeEU");
             Firebase.Core.App.Configure();
-            LoadApplication(new App());
+            LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
+        }
+        
+     
+    }
+    
+    public class iOSInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
         }
     }
 }

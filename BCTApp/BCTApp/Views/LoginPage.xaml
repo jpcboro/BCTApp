@@ -1,19 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="BCTApp.MainPage">
-    <!-- <StackLayout HorizontalOptions="CenterAndExpand" -->
-    <!--              VerticalOptions="CenterAndExpand"> -->
-    <!--   <Entry x:Name="entryEmail"  -->
-    <!--          Placeholder="Enter email"/> -->
-    <!--   <Entry x:Name="entryPassword"  -->
-    <!--          Placeholder="Enter password" -->
-    <!--          IsPassword="True"/> -->
-    <!--   <Button Text="Login" Clicked="Button_Clicked"/> -->
-    <!-- </StackLayout> -->
-    
+             x:Class="BCTApp.LoginPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="0,20,0,0" />
@@ -79,7 +70,7 @@
                 BackgroundColor="Orange"
                 WidthRequest="300"
                 TextColor="White"
-                Clicked="Button_Clicked" />
+                Command="{Binding LoginCommand}" />
         </StackLayout>
 
         <StackLayout
@@ -100,50 +91,6 @@
             </Label>
         </StackLayout>
         
-        <!-- <Button -->
-        <!--     Grid.Row="2" -->
-        <!--     Text="LOGIN" -->
-        <!--     HorizontalOptions="End" -->
-        <!--     VerticalOptions="End" -->
-        <!--     Margin="15,10" -->
-        <!--     Clicked="Button_Clicked" /> -->
-        
-        <!-- MODAL BACKGROUND LAYER -->
-        <!-- <BoxView -->
-        <!--     Grid.Row="0" -->
-        <!--     Grid.RowSpan="3" -->
-        <!--     BackgroundColor="Black" -->
-        <!--     Opacity="0.8" -->
-        <!--     IsVisible="{ Binding IsBusy }" /> -->
-        <!-- -->
-        <!-- <ActivityIndicator -->
-        <!--     Grid.Row="0" -->
-        <!--     Grid.RowSpan="3" -->
-        <!--     VerticalOptions="Center" -->
-        <!--     HorizontalOptions="Center" -->
-        <!--     Color="White" -->
-        <!--     IsRunning="{ Binding IsBusy }"  -->
-        <!--     IsVisible="{ Binding IsBusy }" /> -->
-        <!-- -->
-        <!-- ~1~ CANCEL BUTTON (appears after X seconds after login) @1@ -->
-        <!-- <StackLayout -->
-        <!--     Grid.Row="0" -->
-        <!--     Grid.RowSpan="3" -->
-        <!--     VerticalOptions="Center" -->
-        <!--     TranslationY="100" -->
-        <!--     Margin="50,0" -->
-        <!--     IsVisible="{ Binding IsShowCancel }"> -->
-        <!--     <Label  -->
-        <!--         Text="This is taking a little longer than expected, please hang in there..."  -->
-        <!--         FontSize="Small"  -->
-        <!--         TextColor="White" -->
-        <!--         LineBreakMode="WordWrap" -->
-        <!--         HorizontalOptions="Center" -->
-        <!--         HorizontalTextAlignment="Center"/>             -->
-        <!--     <Button  -->
-        <!--         Text="Cancel"  -->
-        <!--         Command="{ Binding CancelLoginCommand }"  -->
-        <!--         HorizontalOptions="Center" /> -->
-        <!-- </StackLayout> -->
+      
     </Grid>
 </ContentPage>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:gmaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             x:Class="BCTApp.MapPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,20,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    <Grid>
+        <gmaps:Map x:Name="beeMap" 
+                   VerticalOptions="FillAndExpand"
+                   MyLocationEnabled="True">
+        
+        </gmaps:Map>
+        <Grid InputTransparent="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="1" BackgroundColor="Chocolate">
+                <Label Text="Test Label" ></Label>
+
+            </StackLayout>
+
+        </Grid>
+       
+       
+       
+    </Grid>
+ 
+</ContentPage>
