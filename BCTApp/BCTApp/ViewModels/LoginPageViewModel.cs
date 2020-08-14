@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using BCTApp.Contants;
+using BCTApp.Helpers;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -51,6 +52,8 @@ namespace BCTApp
             string uid = await _firebaseAuth.LoginWithEmailAndPassword(Email, Password);
             if (uid != String.Empty)
             {
+                Settings.UserEmail = Email;
+                Settings.UID = uid;
                 var navParams = new NavigationParameters();
                 navParams.Add(ParameterConstants.UID, uid);
                 await _navigationService.NavigateAsync(PageConstants.MapPage, navParams);

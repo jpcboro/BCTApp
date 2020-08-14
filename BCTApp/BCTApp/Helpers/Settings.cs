@@ -7,8 +7,8 @@ namespace BCTApp.Helpers
     {
         private const string _userEmailKey = "email";
         private static readonly string _userEmailDefault = String.Empty;
-        private const string _userPassword = "password";
-        private static readonly string _userPasswordDefault = String.Empty;
+        private const string _userIdKey = "uid";
+        private static readonly string _userIdDefault = String.Empty;
 
         public static string UserEmail
         {
@@ -16,13 +16,13 @@ namespace BCTApp.Helpers
             set { Preferences.Set(_userEmailKey, value);}
         }
         
-        public static string UserPassword
+        public static string UID
         {
-            get { return Preferences.Get(_userPassword, _userPasswordDefault);}
-            set { Preferences.Set(_userPassword, value);}
+            get { return Preferences.Get(_userIdKey, _userIdDefault);}
+            set { Preferences.Set(_userIdKey, value);}
         }
-        
-        
-        
+
+        public static bool IsLoggedIn => !string.IsNullOrEmpty(UID);
+
     }
 }

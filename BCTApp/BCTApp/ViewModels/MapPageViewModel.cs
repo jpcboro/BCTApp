@@ -1,5 +1,9 @@
+using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using BCTApp.Contants;
+using BCTApp.Helpers;
+using BCTApp.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -14,6 +18,14 @@ namespace BCTApp
         private readonly IFirebaseHelper _firebaseHelper;
         private readonly IDialogService _dialogService;
         private string _uid;
+
+        private ObservableCollection<Pin> _pins;
+
+        public ObservableCollection<Pin> Pins
+        {
+            get { return _pins; }
+            set { SetProperty(ref _pins, value); }
+        }
         
         public DelegateCommand<MapClickedEventArgs> MapClickedCommand => 
             new DelegateCommand<MapClickedEventArgs>(async(args)=> await MapTappedToCreatePin(args));
@@ -29,14 +41,79 @@ namespace BCTApp
    
         public async Task MapTappedToCreatePin(MapClickedEventArgs args)
         {
-            _dialogService.ShowDialog("TestDialog", new DialogParameters()
+            var pinCount = Pins.Count + 1;
+            var pinName = $"Hive {pinCount}";
+            var pinLatitude = args.Point.Latitude;
+            var pinLongitude = args.Point.Longitude;
+            var pin = new Pin()
             {
-                {"CloseOnTap", true}
-            });
+                Label = pinName,
+                Position = new Position(pinLatitude, pinLongitude)
+            };
+            
+            Pins.Add(pin);
+
+            var newHive = new Hive()
+            {
+                HiveName = pinName,
+                HiveLocation = new Location()
+                {
+                    Latitude = pinLatitude,
+                    Longitude = pinLongitude
+                }
+            };
+            
+            
+
+            await SaveNewHive(newHive);
+
+            // _dialogService.ShowDialog("TestDialog", new DialogParameters()
+            // {
+            //     {"CloseOnTap", true}
+            // });
         }
+
+        private async Task SaveNewHive(Hive newHive)
+        {
+            try
+            {
+                await _firebaseHelper.AddHive(_uid, newHive);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                
+            }
+        }
+
         public void Initialize(INavigationParameters parameters)
         {
-            _uid = parameters.GetValue<string>(ParameterConstants.UID);;
+            if (!string.IsNullOrEmpty(Settings.UID))
+            {
+                _uid = Settings.UID;
+            }
+            else
+            {
+                _uid = parameters.GetValue<string>(ParameterConstants.UID);
+
+            }
+
+            GetUserHives(_uid);
+        }
+
+        private async void GetUserHives(string uid)
+        {
+            var userHives = await _firebaseHelper.GetAllUserHives(uid);
+            foreach (var hive in userHives)
+            {
+                Pins.Add( new Pin()
+                {
+                    Label = hive.HiveName,
+                    Position = new Position(hive.HiveLocation.Latitude, hive.HiveLocation.Longitude)
+                });
+                
+            }
         }
     }
 }    

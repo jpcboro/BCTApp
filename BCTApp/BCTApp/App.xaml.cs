@@ -1,4 +1,5 @@
 ﻿using System;
+using BCTApp.Helpers;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -10,12 +11,7 @@ namespace BCTApp
 {
     public partial class App : PrismApplication
     {
-        // public App()
-        // {
-        //     InitializeComponent();
-        //
-        //     MainPage = new NavigationPage(new MainPage());
-        // }
+      
         
         public App(IPlatformInitializer platformInitializer = null) : base(platformInitializer){}
 
@@ -34,7 +30,10 @@ namespace BCTApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("LoginPage");
+            if (Settings.IsLoggedIn)
+                await NavigationService.NavigateAsync("MapPage");
+            else
+                await NavigationService.NavigateAsync("LoginPage");
         }
 
         protected override void OnStart()
