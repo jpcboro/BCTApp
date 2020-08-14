@@ -3,7 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
-namespace BCTApp.ViewModels
+namespace BCTApp
 {
     public class TestDialogViewModel : BindableBase, IDialogAware
     {

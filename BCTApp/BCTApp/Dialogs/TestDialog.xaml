@@ -6,7 +6,7 @@
              prism:DialogLayout.CloseOnBackgroundTapped="{Binding CloseOnTap}"
              CornerRadius="20"
              HasShadow="False"
-             x:Class="BCTApp.Views.TestDialog">
+             x:Class="BCTApp.TestDialog">
     <ContentPage.Content>
         <StackLayout Spacing="16">
             <Label Text="Hello, world!"

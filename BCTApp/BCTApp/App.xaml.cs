@@ -1,5 +1,4 @@
 ﻿using System;
-using BCTApp.Views;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -25,7 +24,8 @@ namespace BCTApp
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
-            containerRegistry.RegisterDialog<TestDialog>();
+            containerRegistry.RegisterDialog<TestDialog, TestDialogViewModel>();
+            containerRegistry.Register<IFirebaseHelper, FirebaseHelper>();
 
 
         }

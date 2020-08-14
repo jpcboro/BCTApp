@@ -22,5 +22,7 @@ namespace BCTApp.Helpers
             set { Preferences.Set(_userPassword, value);}
         }
         
+        
+        
     }
 }

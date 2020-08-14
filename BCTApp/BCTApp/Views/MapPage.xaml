@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:gmaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:gmapbindings="clr-namespace:Xamarin.Forms.GoogleMaps.Bindings;assembly=Xamarin.Forms.GoogleMaps.Bindings"
              x:Class="BCTApp.MapPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -13,7 +14,12 @@
     <Grid>
         <gmaps:Map x:Name="beeMap" 
                    VerticalOptions="FillAndExpand"
-                   MyLocationEnabled="True">
+                   MyLocationEnabled="True"
+                  >
+            <gmaps:Map.Behaviors>
+                <gmapbindings:MapClickedToCommandBehavior Command="{Binding MapClickedCommand}"/>
+                <gmapbindings:BindingPinsBehavior Value="{Binding Pins}"/>
+            </gmaps:Map.Behaviors>
         
         </gmaps:Map>
         <!-- <Grid InputTransparent="True"> -->
