@@ -15,7 +15,7 @@
         <gmaps:Map x:Name="beeMap" 
                    VerticalOptions="FillAndExpand"
                    MyLocationEnabled="True"
-                   SelectedPin="{Binding SelectedHive}">
+                   >
             <gmaps:Map.Behaviors>
                 <gmapbindings:MapClickedToCommandBehavior Command="{Binding MapClickedCommand}"/>
                 <gmapbindings:BindingPinsBehavior Value="{Binding Pins}"/>
@@ -28,6 +28,13 @@
             </gmaps:Map.Behaviors>
         
         </gmaps:Map>
+        <StackLayout Padding="20" BackgroundColor="Transparent" InputTransparent="False"
+                         VerticalOptions="StartAndExpand" HorizontalOptions="End" WidthRequest="80">
+           <Button Background="Orange" TextColor="White" Text="Log Out"
+                   InputTransparent="False"
+                   Command="{Binding LogOutCommand}"></Button>
+        </StackLayout>
+        <!-- -->
         <!-- <Grid InputTransparent="True"> -->
         <!--     <Grid.RowDefinitions> -->
         <!--         <RowDefinition Height="*"></RowDefinition> -->

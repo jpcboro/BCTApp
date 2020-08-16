@@ -7,12 +7,10 @@
              CornerRadius="20"
              HasShadow="False"
              x:Class="BCTApp.TestDialog">
-    <ContentPage.Content>
-        <StackLayout Spacing="16">
+    <StackLayout Spacing="16">
             <Label Text="Hello, world!"
                    VerticalOptions="Center"
                    HorizontalOptions="CenterAndExpand" />
             <Button Text="Close" Command="{Binding CloseCommand}"></Button>
         </StackLayout>
-    </ContentPage.Content>
 </Frame>

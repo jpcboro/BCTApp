@@ -97,6 +97,7 @@ namespace BCTApp
             {
                 Label = newHive.HiveName,
                 Position = new Position(newHive.HiveLocation.Latitude, newHive.HiveLocation.Longitude),
+                Icon = BitmapDescriptorFactory.FromBundle("map_pin.png"),
                 IsDraggable = true,
             };
 
@@ -120,21 +121,37 @@ namespace BCTApp
 
         public MoveCameraRequest MoveCameraReq => new MoveCameraRequest();
 
-        public MapPageViewModel(INavigationService _navigationService,
+        public MapPageViewModel(INavigationService navigationService,
             IFirebaseHelper firebaseHelper,
-            IDialogService dialogService
-            )
+            IDialogService dialogService 
+        )
         {
-            this._navigationService = _navigationService;
+            _navigationService = navigationService;
             _dialogService = dialogService;
             _firebaseHelper = firebaseHelper;
+            
+            _firebaseAuth = DependencyService.Get<IFirebaseAuthentication>();
             
             PinDragStartCommand = new DelegateCommand<PinDragEventArgs>((args)=> PinDragStart(args));
             PinDragEndCommand = new DelegateCommand<PinDragEventArgs>((args) => PinDragEnd(args));
             PinDraggingCommand = new DelegateCommand<PinDragEventArgs>((args) => PinDragging(args));
             MapClickedCommand = new DelegateCommand<MapClickedEventArgs>((args) => MapTappedToCreatePin(args));
+            LogOutCommand = new DelegateCommand(()=> LogOut());
             
-            
+        }
+
+        public DelegateCommand LogOutCommand { get; set; }
+
+        private void LogOut()
+        {
+            var signOutOk = _firebaseAuth.SignOut();
+            if (signOutOk)
+            {
+                _navigationService.NavigateAsync("/LoginPage");
+                Settings.UID = String.Empty;
+                
+            }
+           
         }
 
         public DelegateCommand<PinDragEventArgs> PinDraggingCommand { get; set; }
@@ -150,6 +167,7 @@ namespace BCTApp
         }
 
         private bool _isMapTapEnabled = true;
+        private IFirebaseAuthentication _firebaseAuth;
 
         public bool IsMapTapEnabled
         {
@@ -238,11 +256,7 @@ namespace BCTApp
 
         public async Task MapTappedToCreatePin(MapClickedEventArgs args)
         {
-            // string mapCoordinates = $"Add marker at {args.Point.Latitude}, {args.Point.Longitude}";
-            // _dialogService.ShowDialog("SampleDialog", new DialogParameters()
-            // {
-            //     {"message", mapCoordinates}
-            // });
+           
 
             if (IsMapTapEnabled)
             {
@@ -262,41 +276,9 @@ namespace BCTApp
                
             }
 
-          
-         
-            // var pinLatitude = args.Point.Latitude;
-            // var pinLongitude = args.Point.Longitude;
-            //
-            //    
-            // await CreateMapPins(pinLatitude, pinLongitude);
         }
 
-        // private async Task CreateMapPins(double pinLatitude, double pinLongitude)
-        // {
-        //     var pinCount = Pins.Count + 1;
-        //     var pinName = $"Hive {pinCount}";
-        //     var pin = new Pin()
-        //     {
-        //         Label = pinName,
-        //         Position = new Position(pinLatitude, pinLongitude),
-        //         IsDraggable = true,
-        //     };
-        //
-        //     Pins.Add(pin);
-        //
-        //     var newHive = new Hive()
-        //     {
-        //         HiveName = pinName,
-        //         HiveLocation = new Location()
-        //         {
-        //             Latitude = pinLatitude,
-        //             Longitude = pinLongitude
-        //         }
-        //     };
-        //
-        //
-        //     await SaveNewHive(newHive);
-        // }
+      
 
         private async Task SaveNewHive(Hive newHive)
         {
@@ -314,17 +296,7 @@ namespace BCTApp
 
         public void Initialize(INavigationParameters parameters)
         {
-            if (!string.IsNullOrEmpty(Settings.UID))
-            {
-                _uid = Settings.UID;
-            }
-            else
-            {
-                _uid = parameters.GetValue<string>(ParameterConstants.UID);
-
-            }
-            
-            GetUserHives(_uid);
+           
         }
 
         private async Task GotoUserLocation()
@@ -356,12 +328,7 @@ namespace BCTApp
 
         private async Task GetUserHives(string uid)
         {
-            if (Pins.Any())
-            {
-                Pins.Clear();
 
-            }
-          
             var userHives = await _firebaseHelper.GetAllUserHives(uid);
             foreach (var hive in userHives)
             {
@@ -369,11 +336,14 @@ namespace BCTApp
                 {
                     Label = hive.HiveName,
                     Position = new Position(hive.HiveLocation.Latitude, hive.HiveLocation.Longitude),
+                    Icon = BitmapDescriptorFactory.FromBundle("map_pin.png"),
                     IsDraggable = true
                     
                 });
             
             }
+
+           
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -383,19 +353,32 @@ namespace BCTApp
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (!string.IsNullOrEmpty(Settings.UID))
+            {
+                _uid = Settings.UID;
+            }
+            else
+            {
+                _uid = parameters.GetValue<string>(ParameterConstants.UID);
+
+            }
+            
+            
             Device.StartTimer(TimeSpan.FromMilliseconds(500),  () =>
             {
                 GotoUserLocation();
+                GetUserHives(_uid);
+                var pins = Pins.Count;
                 return false;
             });
         }
 
         public async Task InitializeAsync(INavigationParameters parameters)
         {
-           
-           
-            
-        
+
+            GetUserHives(Settings.UID);
+
+
         }
     }
 }

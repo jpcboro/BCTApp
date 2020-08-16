@@ -32,5 +32,19 @@ namespace BCTApp.Droid
                 return string.Empty;
             }
         }
+
+        public bool SignOut()
+        {
+            try
+            {
+                FirebaseAuth.Instance.SignOut();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
     }
 }

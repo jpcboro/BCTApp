@@ -38,13 +38,7 @@ namespace BCTApp
             _navigationService = navigationService;
 
             _firebaseAuth = DependencyService.Get<IFirebaseAuthentication>();
-
-#if  DEBUG
-            Email = "joepboro@gmail.com";
-            Password = "joep123456";
-#endif
-
-
+            
         }
         
         private  async Task ExecuteLoginCommandAsync()

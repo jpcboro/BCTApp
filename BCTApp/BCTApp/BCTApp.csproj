@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="Behaviors" />
     <Folder Include="Converters" />
+    <Folder Include="MapResources" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +50,8 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
+    <None Remove="MapResources\MapTheme.json" />
+    <EmbeddedResource Include="MapResources\MapTheme.json" />
   </ItemGroup>
 
   <ItemGroup>

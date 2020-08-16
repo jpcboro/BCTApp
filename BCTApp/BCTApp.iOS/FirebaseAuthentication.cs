@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using Foundation;
 using Xamarin.Forms;
 
 [assembly:Dependency(typeof(BCTApp.iOS.FirebaseAuthentication))]
@@ -19,6 +20,20 @@ namespace BCTApp.iOS
             catch (Exception e)
             {
                 return string.Empty;
+            }
+        }
+
+        public bool SignOut()
+        {
+            try
+            {
+                _ = Auth.DefaultInstance.SignOut(out NSError error);
+                return error == null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
     }
