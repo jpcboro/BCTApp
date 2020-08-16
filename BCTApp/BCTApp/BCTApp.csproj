@@ -38,7 +38,7 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SampleDialog.xaml">
+    <EmbeddedResource Update="Views\DeleteHiveDialog.xaml">
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
@@ -65,7 +65,7 @@
     <Compile Update="Dialogs\TestDialog.xaml.cs">
       <DependentUpon>TestDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\SampleDialog.xaml.cs">
+    <Compile Update="Views\DeleteHiveDialog.xaml.cs">
       <DependentUpon>SampleDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\CreateNewHivePage.xaml.cs">

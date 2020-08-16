@@ -21,7 +21,7 @@ namespace BCTApp
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterDialog<TestDialog, TestDialogViewModel>();
-            containerRegistry.RegisterDialog<SampleDialog, SampleDialogViewModel>();
+            containerRegistry.RegisterDialog<DeleteHiveDialog, DeleteHiveDialogViewModel>();
             containerRegistry.RegisterDialog<CreateNewHivePage, CreateNewHivePageViewModel>();
             containerRegistry.RegisterDialog<MoveHivePage, MoveHivePageViewModel>();
             containerRegistry.Register<IFirebaseHelper, FirebaseHelper>();

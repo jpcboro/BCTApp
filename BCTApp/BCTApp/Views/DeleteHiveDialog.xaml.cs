@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace BCTApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SampleDialog : Frame
+    public partial class DeleteHiveDialog : Frame
     {
-        public SampleDialog()
+        public DeleteHiveDialog()
         {
             InitializeComponent();
         }

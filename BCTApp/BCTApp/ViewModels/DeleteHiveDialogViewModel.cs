@@ -8,7 +8,7 @@ using Prism.Services.Dialogs;
 
 namespace BCTApp
 {
-    public class SampleDialogViewModel : BindableBase, IDialogAware
+    public class DeleteHiveDialogViewModel : BindableBase, IDialogAware
     {
         private readonly IFirebaseHelper _firebaseHelper;
         private string _message;
@@ -27,7 +27,7 @@ namespace BCTApp
             set { SetProperty(ref _hive, value); }
         }
 
-        public SampleDialogViewModel(IFirebaseHelper firebaseHelper)
+        public DeleteHiveDialogViewModel(IFirebaseHelper firebaseHelper)
         {
             _firebaseHelper = firebaseHelper;
             CloseDialogCommand = new DelegateCommand(()=> RequestClose(null));

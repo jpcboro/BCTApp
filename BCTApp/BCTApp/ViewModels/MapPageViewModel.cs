@@ -65,7 +65,7 @@ namespace BCTApp
                 }
             };
             
-            _dialogService.ShowDialog("SampleDialog", new DialogParameters()
+            _dialogService.ShowDialog("DeleteHiveDialog", new DialogParameters()
             {
                 {"message",hive}
             }, OnDialogClosed);
