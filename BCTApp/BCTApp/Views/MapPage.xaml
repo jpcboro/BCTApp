@@ -15,10 +15,16 @@
         <gmaps:Map x:Name="beeMap" 
                    VerticalOptions="FillAndExpand"
                    MyLocationEnabled="True"
-                  >
+                   SelectedPin="{Binding SelectedHive}">
             <gmaps:Map.Behaviors>
                 <gmapbindings:MapClickedToCommandBehavior Command="{Binding MapClickedCommand}"/>
                 <gmapbindings:BindingPinsBehavior Value="{Binding Pins}"/>
+                <gmapbindings:MoveToRegionBehavior Request="{Binding MoveToRegionReq}"/>
+                <gmapbindings:PinClickedToCommandBehavior Command="{Binding PinClickedCommand}"/>
+                <gmapbindings:PinDragStartToCommandBehavior Command="{Binding PinDragStartCommand}"/>
+                <gmapbindings:PinDragEndToCommandBehavior Command="{Binding PinDragEndCommand}"/>
+                <gmapbindings:PinDraggingToCommandBehavior Command="{Binding PinDraggingCommand}"/>
+
             </gmaps:Map.Behaviors>
         
         </gmaps:Map>
@@ -34,8 +40,7 @@
         <!--     </StackLayout> -->
         <!-- -->
         <!-- </Grid> -->
-       
-       
+        
        
     </Grid>
  

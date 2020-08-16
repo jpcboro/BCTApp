@@ -67,5 +67,14 @@ namespace BCTApp
                     HiveLocation = hive.HiveLocation
                 });
         }
+
+        public async Task DeleteBeeHive(string userId,  Hive hive)
+        {
+            var hiveToDelete = (await firebase.Child($"BeeHives/{userId}")
+                .OnceAsync<Hive>()).Where(a => a.Object.HiveName == hive.HiveName).FirstOrDefault();
+
+            await firebase.Child($"BeeHives/{userId}").Child(hiveToDelete.Key).DeleteAsync();
+
+        }
     }
 }

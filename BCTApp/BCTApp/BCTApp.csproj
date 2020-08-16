@@ -37,6 +37,18 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\SampleDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CreateNewHivePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MoveHivePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +61,15 @@
     </Compile>
     <Compile Update="Dialogs\TestDialog.xaml.cs">
       <DependentUpon>TestDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SampleDialog.xaml.cs">
+      <DependentUpon>SampleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CreateNewHivePage.xaml.cs">
+      <DependentUpon>CreateNewHivePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MoveHivePage.xaml.cs">
+      <DependentUpon>MoveHivePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

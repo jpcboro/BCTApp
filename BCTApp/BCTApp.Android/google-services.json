@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "877369339598",
+    "firebase_url": "https://bctappmap.firebaseio.com",
+    "project_id": "bctappmap",
+    "storage_bucket": "bctappmap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877369339598:android:26d1d9d1ad1ce420792a9f",
+        "android_client_info": {
+          "package_name": "com.jpboro.bctapptest.bctapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877369339598-goek7pnj51alh0gstr6rgtg245vumtpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jpboro.bctapptest.bctapp",
+            "certificate_hash": "045db7ce2d72bfdd6af4efcce7c496c0d19caa81"
+          }
+        },
+        {
+          "client_id": "877369339598-eucrr563q90p3pibpqgais2v516q9rc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuES8RruuE5MhQ9cJ4-4NkQGbBhE4d7uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877369339598-eucrr563q90p3pibpqgais2v516q9rc7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "877369339598-e9gpqj00sui0nptn6kmgaj30esaq9r10.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jpboro.bctapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             BackgroundColor="White"
+             HasShadow="False"
+             x:Class="BCTApp.CreateNewHivePage">
+              <StackLayout Spacing="10">
+                <Entry Placeholder="Name of Hive" Text="{Binding HiveName}"></Entry>
+                <Entry Placeholder="Number Of Bees"></Entry>
+                <Entry Placeholder="No. of wasps present (Optional)"></Entry>
+                  <Button Text="Add New Hive"
+                          BackgroundColor="Coral"
+                          TextColor="White"
+                          Command="{Binding SaveNewHiveCommand}"/>
+              <Button Text="Close" 
+                      BackgroundColor="Coral"
+                      TextColor="White"
+                      Command="{Binding CloseDialogCommand}"/>
+            </StackLayout>
+
+</Frame>

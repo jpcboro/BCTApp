@@ -11,5 +11,7 @@ namespace BCTApp
         Task<List<Hive>> GetAllUserHives(string userId);
 
         Task UpdateBeeHive(string userId, Hive hive);
+        
+        Task DeleteBeeHive(string userId, Hive hive);
     }
 }

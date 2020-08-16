@@ -6,5 +6,6 @@ namespace BCTApp.Models
        
         public  Location HiveLocation { get; set; }
         
+        
     }
 }

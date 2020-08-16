@@ -22,6 +22,44 @@ namespace BCTApp
         public MapPage()
         {
               InitializeComponent();  
+              
+              MessagingCenter.Subscribe<MapPageViewModel>(this, "DragStart", (sender) =>
+              {
+                  beeMap.PinDragStart += StartPinDrag;
+              });
+        }
+
+        private void StartPinDrag(object sender, PinDragEventArgs e)
+        {
+            
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            
+            var location = new Xamarin.Essentials.Location(14.670084, 121.066443);
+                
+                
+                
+            // if (location == null)
+            // {
+            //     location = await Geolocation.GetLocationAsync(new GeolocationRequest
+            //     {
+            //         DesiredAccuracy = GeolocationAccuracy.Medium,
+            //         Timeout = TimeSpan.FromSeconds(30)
+            //     });
+            //         
+            // }
+
+            // if (location != null)
+            // {
+            //     Console.WriteLine($"Latitude:{location.Latitude}, Longitude: {location.Longitude}");
+            //     MapSpan mapSpan = MapSpan.FromCenterAndRadius(new Position(location.Latitude, location.Longitude),
+            //         Distance.FromMeters(100));
+            //     beeMap.MoveToRegion(mapSpan);
+            // }
+            
         }
 
         // private async void Map_OnMapClicked(object sender , MapClickedEventArgs e)
