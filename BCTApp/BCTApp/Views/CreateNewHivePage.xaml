@@ -7,18 +7,30 @@
              BackgroundColor="White"
              HasShadow="False"
              x:Class="BCTApp.CreateNewHivePage">
-              <StackLayout Spacing="10">
-                <Entry Placeholder="Name of Hive" Text="{Binding HiveName}"></Entry>
-                <Entry Placeholder="Number Of Bees"></Entry>
-                <Entry Placeholder="No. of wasps present (Optional)"></Entry>
-                  <Button Text="Add New Hive"
-                          BackgroundColor="Coral"
-                          TextColor="White"
-                          Command="{Binding SaveNewHiveCommand}"/>
-              <Button Text="Close" 
-                      BackgroundColor="Coral"
-                      TextColor="White"
-                      Command="{Binding CloseDialogCommand}"/>
-            </StackLayout>
+    <Grid>
+        <StackLayout Spacing="10" IsVisible="{Binding IsControlVisible}">
+            <Entry Placeholder="Name of Hive" Text="{Binding HiveName}"></Entry>
+            <Entry Placeholder="Number Of Bees"></Entry>
+            <Entry Placeholder="No. of wasps present (Optional)"></Entry>
+            <Button Text="Add New Hive"
+                    BackgroundColor="Coral"
+                    TextColor="White"
+                    Command="{Binding SaveNewHiveCommand}"/>
+            <Button Text="Close" 
+                    BackgroundColor="Coral"
+                    TextColor="White"
+                    Command="{Binding CloseDialogCommand}"/>
+        </StackLayout>
+        <StackLayout IsVisible="{Binding IsSaving}" >
+            <ActivityIndicator VerticalOptions="Center" 
+                               HorizontalOptions="Center"
+                               IsRunning="{Binding IsSaving}"
+                               IsVisible="{Binding IsSaving}"
+                               IsEnabled="{Binding IsSaving}"
+                               Color="Orange"
+                               Background="Transparent" WidthRequest="60" HeightRequest="60" />
+        </StackLayout>
+    </Grid>
+ 
 
 </Frame>

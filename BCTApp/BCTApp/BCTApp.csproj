@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="Behaviors" />
     <Folder Include="Converters" />
+    <Folder Include="Dialogs" />
     <Folder Include="MapResources" />
   </ItemGroup>
 
@@ -31,10 +32,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Dialogs\TestDialog.xaml">
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
@@ -52,6 +49,14 @@
     </EmbeddedResource>
     <None Remove="MapResources\MapTheme.json" />
     <EmbeddedResource Include="MapResources\MapTheme.json" />
+    <EmbeddedResource Update="Views\MainTabbedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\HiveListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -62,9 +67,6 @@
     <Compile Update="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\TestDialog.xaml.cs">
-      <DependentUpon>TestDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\DeleteHiveDialog.xaml.cs">
       <DependentUpon>SampleDialog.xaml</DependentUpon>
     </Compile>
@@ -73,6 +75,12 @@
     </Compile>
     <Compile Update="Views\MoveHivePage.xaml.cs">
       <DependentUpon>MoveHivePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainTabbedPage.xaml.cs">
+      <DependentUpon>MainTabbedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\HiveListPage.xaml.cs">
+      <DependentUpon>HiveListPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using BCTApp.Contants;
 using BCTApp.Helpers;
 using BCTApp.Models;
+using Prism;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -19,11 +21,12 @@ using Location = BCTApp.Models.Location;
 
 namespace BCTApp
 {
-    public class MapPageViewModel : BindableBase, IInitialize, INavigatedAware, IInitializeAsync
+    public class MapPageViewModel : BindableBase, IInitialize, INavigatedAware, IInitializeAsync, IActiveAware
     {
         private readonly INavigationService _navigationService;
         private readonly IFirebaseHelper _firebaseHelper;
         private readonly IDialogService _dialogService;
+        private readonly IEventAggregator _eventAggregator;
         private string _uid;
 
         private ObservableCollection<Pin> _pins;
@@ -76,19 +79,37 @@ namespace BCTApp
             if (result.Parameters.ContainsKey("deleted"))
             {
                 var deletedHive = result.Parameters.GetValue<Hive>("deleted");
+                
 
                 RemoveHiveFromMap(deletedHive);
+                
             }
 
             if (result.Parameters.ContainsKey("savedHive"))
             {
                 var newHive =  result.Parameters.GetValue<Hive>("savedHive");
 
+                _eventAggregator.GetEvent<UpdateHiveListEvent>().Publish(true);
+                
                 AddHiveOnMap(newHive);
             }
             
-           
-
+        }
+        
+        private async void OnMoveDialogClosed(IDialogResult result)
+        {
+            
+            if (result.Parameters.ContainsKey("moveCanceled"))
+            {
+                var moveParams = result.Parameters.GetValue<bool>("moveCanceled");
+             
+                if (moveParams)
+                {
+                    GetUserHives(Settings.UID);
+                    
+                }
+            }
+            
         }
 
         private void AddHiveOnMap(Hive newHive)
@@ -113,8 +134,8 @@ namespace BCTApp
                 {
                     Pins.Remove(item);
                 }
-                
             }
+            
         }
 
         public MoveToRegionRequest MoveToRegionReq { get; } = new MoveToRegionRequest();
@@ -123,11 +144,13 @@ namespace BCTApp
 
         public MapPageViewModel(INavigationService navigationService,
             IFirebaseHelper firebaseHelper,
-            IDialogService dialogService 
+            IDialogService dialogService,
+            IEventAggregator eventAggregator
         )
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
             _firebaseHelper = firebaseHelper;
             
             _firebaseAuth = DependencyService.Get<IFirebaseAuthentication>();
@@ -137,6 +160,8 @@ namespace BCTApp
             PinDraggingCommand = new DelegateCommand<PinDragEventArgs>((args) => PinDragging(args));
             MapClickedCommand = new DelegateCommand<MapClickedEventArgs>((args) => MapTappedToCreatePin(args));
             LogOutCommand = new DelegateCommand(()=> LogOut());
+            
+            Pins = new ObservableCollection<Pin>();
             
         }
 
@@ -210,24 +235,7 @@ namespace BCTApp
            
         }
 
-        private void OnMoveDialogClosed(IDialogResult obj)
-        {
-            
-                foreach (var item in Pins)
-                {
-                    if (item.Label == SelectedPinOrigLoc.Label)
-                    {
-                        Device.BeginInvokeOnMainThread(() =>
-                        {
-                            Pins.Clear();
-                            GetUserHives(Settings.UID);
-                           
-                        });
-                    
-                    } 
-                }
-            
-        }
+      
 
         public bool PinDragged { get; set; }
 
@@ -237,7 +245,7 @@ namespace BCTApp
         {
             IsMapTapEnabled = false;
             
-            SelectedPinOrigLoc = args.Pin;
+            // SelectedPinOrigLoc = args.Pin;
             
             OriginalPinLocation = new Location()
             {
@@ -277,22 +285,7 @@ namespace BCTApp
             }
 
         }
-
-      
-
-        private async Task SaveNewHive(Hive newHive)
-        {
-            try
-            {
-                await _firebaseHelper.AddHive(_uid, newHive);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-            }
-        }
+        
 
         public void Initialize(INavigationParameters parameters)
         {
@@ -328,8 +321,11 @@ namespace BCTApp
 
         private async Task GetUserHives(string uid)
         {
-
             var userHives = await _firebaseHelper.GetAllUserHives(uid);
+            if (Pins.Any())
+            {
+                Pins.Clear();
+            }
             foreach (var hive in userHives)
             {
                 Pins.Add(new Pin()
@@ -375,11 +371,26 @@ namespace BCTApp
 
         public async Task InitializeAsync(INavigationParameters parameters)
         {
-
-            GetUserHives(Settings.UID);
-
+            
+            _eventAggregator.GetEvent<UpdateHiveListEvent>().Publish(true);
 
         }
+        
+        public event EventHandler IsActiveChanged;
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { SetProperty(ref _isActive, value, RaiseIsActiveChanged); }
+        }
+
+        protected virtual void RaiseIsActiveChanged()
+        {
+            IsActiveChanged?.Invoke(this, EventArgs.Empty);
+
+        }
+      
     }
 }
 

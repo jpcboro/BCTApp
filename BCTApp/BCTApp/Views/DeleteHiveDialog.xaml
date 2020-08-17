@@ -5,13 +5,29 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="BCTApp.DeleteHiveDialog">
-
-        <StackLayout>
-            <Label Text="{Binding Message}"
-                  />
-            <Button Text="Delete Marker" Command="{Binding DeleteHiveCommand}"></Button>
+<Grid>
+    <StackLayout Spacing="10" IsVisible="{Binding IsControlVisible}">
+        <Label Text="{Binding Message}"
+        />
+        <Button Text="Delete Marker" Command="{Binding DeleteHiveCommand}" 
+                BackgroundColor="Coral"
+                TextColor="White" />
           
-            <Button Text="Close" Command="{Binding CloseDialogCommand}"></Button>
-        </StackLayout>
+        <Button Text="Close" 
+                Command="{Binding CloseDialogCommand}"
+                BackgroundColor="Coral"
+                TextColor="White" />
+    </StackLayout>
+    <StackLayout IsVisible="{Binding IsSaving}" >
+        <ActivityIndicator VerticalOptions="Center" 
+                           HorizontalOptions="Center"
+                           IsRunning="{Binding IsSaving}"
+                           IsVisible="{Binding IsSaving}"
+                           IsEnabled="{Binding IsSaving}"
+                           Color="Orange"
+                           Background="Transparent" WidthRequest="60" HeightRequest="60" />
+    </StackLayout>
+</Grid>
+      
 
 </Frame>

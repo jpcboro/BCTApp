@@ -8,7 +8,7 @@ using Prism.Services.Dialogs;
 
 namespace BCTApp
 {
-    public class MoveHivePageViewModel : BindableBase, IDialogAware
+    public class MoveHivePageViewModel : ViewModelBase, IDialogAware
     {
         private readonly IFirebaseHelper _firebaseHelper;
 
@@ -16,7 +16,10 @@ namespace BCTApp
         {
             _firebaseHelper = firebaseHelper;
             
-            CloseDialogCommand = new DelegateCommand(()=> RequestClose(null));
+            CloseDialogCommand = new DelegateCommand(()=> RequestClose(new DialogParameters()
+            {
+                {"moveCanceled", true}
+            }));
             MoveHiveCommand = new DelegateCommand(() => UpdateHivePosition());
         }
 
@@ -24,9 +27,19 @@ namespace BCTApp
 
         private async Task UpdateHivePosition()
         {
+            IsSaving = true;
+            IsControlVisible = false;
             await _firebaseHelper.UpdateBeeHive(Settings.UID, MovedHive);
-
-            RequestClose(null);
+           
+            
+            RequestClose(new DialogParameters()
+            {
+                {"moveCanceled", false}
+            });
+            
+            
+            IsSaving = false;
+            IsControlVisible = true;
         }
 
         public bool CanCloseDialog()
@@ -36,7 +49,7 @@ namespace BCTApp
 
         public void OnDialogClosed()
         {
-          
+         
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
@@ -57,6 +70,8 @@ namespace BCTApp
             get { return _hiveName; }
             set { SetProperty(ref _hiveName, value); }
         }
+
+       
         public DelegateCommand CloseDialogCommand { get; set; }
 
         public event Action<IDialogParameters> RequestClose;

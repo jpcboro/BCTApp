@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Hive List"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             BackgroundColor="#ffeaa9"
+             x:Class="BCTApp.HiveListPage">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="0,1">
+            <GradientStop Color="#ffe4ad"
+                          Offset="0.1"/>
+            <GradientStop Color="#f7cd58"
+                          Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <ContentPage.Content>
+        <StackLayout>
+            
+         
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="10,50,10,0"/>
+                    <On Platform="iOS" Value="10"/>
+                </OnPlatform>
+            </StackLayout.Margin>
+            <StackLayout HorizontalOptions="CenterAndExpand">
+                <Label Text="Hive List" HorizontalTextAlignment="Center" TextColor="#fd9281" FontAttributes="Bold" FontSize="30"/>
+            </StackLayout>
+            <ListView ItemsSource="{Binding UserHives}" 
+                      Margin="0,20,0,0"
+                      SeparatorVisibility="None"
+                      BackgroundColor="Transparent"
+                      HasUnevenRows="True">
+               <ListView.ItemTemplate>
+                   <DataTemplate>
+                       <ViewCell>
+                           <StackLayout BackgroundColor="Transparent" Padding="10"  HeightRequest="80">
+                               <Frame BackgroundColor="White" HasShadow="False" VerticalOptions="FillAndExpand" >
+                                   <StackLayout Orientation="Horizontal" Spacing="10" BackgroundColor="White">
+                                       <Image VerticalOptions="Start" 
+                                           Source="ic_hive.png" HeightRequest="50" WidthRequest="50"></Image>
+                                       <StackLayout>
+                                           <Label Text="{Binding HiveName}" FontSize="20" TextColor="#ff9e8c" FontAttributes="Bold"></Label>
+                                           <StackLayout Orientation="Horizontal" Spacing="5">
+                                               <Label Text="{Binding HiveLocation.Latitude}" TextColor="#bda5b1"/>
+                                               <Label Text="{Binding HiveLocation.Longitude}" TextColor="#bda5b1" />
+                                           </StackLayout>
+                                       </StackLayout>
+                                       </StackLayout>
+                               </Frame>
+                             
+                                   
+ 
+                           </StackLayout>
+                       </ViewCell>
+                   </DataTemplate>
+               </ListView.ItemTemplate>
+           </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

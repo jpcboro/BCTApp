@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace BCTApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TestDialog
+    public partial class MainTabbedPage : TabbedPage
     {
-        public TestDialog()
+        public MainTabbedPage()
         {
             InitializeComponent();
         }

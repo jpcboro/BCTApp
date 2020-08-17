@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
             xmlns:gmaps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              xmlns:gmapbindings="clr-namespace:Xamarin.Forms.GoogleMaps.Bindings;assembly=Xamarin.Forms.GoogleMaps.Bindings"
+             Title="Hive Map"
              x:Class="BCTApp.MapPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -24,31 +25,16 @@
                 <gmapbindings:PinDragStartToCommandBehavior Command="{Binding PinDragStartCommand}"/>
                 <gmapbindings:PinDragEndToCommandBehavior Command="{Binding PinDragEndCommand}"/>
                 <gmapbindings:PinDraggingToCommandBehavior Command="{Binding PinDraggingCommand}"/>
-
             </gmaps:Map.Behaviors>
         
         </gmaps:Map>
         <StackLayout Padding="20" BackgroundColor="Transparent" InputTransparent="False"
                          VerticalOptions="StartAndExpand" HorizontalOptions="End" WidthRequest="80">
-           <Button Background="Orange" TextColor="White" Text="Log Out"
+           <Button Background="#fca046" TextColor="White" Text="Log Out"
                    InputTransparent="False"
                    Command="{Binding LogOutCommand}"></Button>
         </StackLayout>
-        <!-- -->
-        <!-- <Grid InputTransparent="True"> -->
-        <!--     <Grid.RowDefinitions> -->
-        <!--         <RowDefinition Height="*"></RowDefinition> -->
-        <!--         <RowDefinition Height="Auto"></RowDefinition> -->
-        <!--         <RowDefinition Height="*"></RowDefinition> -->
-        <!--     </Grid.RowDefinitions> -->
-        <!--     <StackLayout Grid.Row="1" BackgroundColor="Chocolate"> -->
-        <!--         <Label Text="Test Label" ></Label> -->
-        <!-- -->
-        <!--     </StackLayout> -->
-        <!-- -->
-        <!-- </Grid> -->
-        
-       
+    
     </Grid>
  
 </ContentPage>

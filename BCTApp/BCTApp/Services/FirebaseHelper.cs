@@ -11,12 +11,6 @@ namespace BCTApp
     {
         FirebaseClient firebase = new FirebaseClient("https://bctappmap.firebaseio.com/");
         
-        public async Task AddItem(string name, string userId)
-        {
-            await firebase.Child($"items/{userId}")
-                .PostAsync(new Item() {Name = name});
-        }
-
         public async Task AddHive(string userId, Hive hive)
         {
             await firebase.Child($"BeeHives/{userId}")
@@ -26,18 +20,7 @@ namespace BCTApp
                     HiveLocation = hive.HiveLocation
                 });
         }
-
-        public async Task<List<Item>> GetAllUserItems(string userId)
-        {
-            var objectItems = 
-                await firebase.Child($"items/{userId}")
-                    .OnceAsync<Item>();
-            
-            return objectItems.Select(x=> new Item()
-            {
-                Name = x.Object.Name
-            }).ToList();
-        }
+        
         
         public async Task<List<Hive>> GetAllUserHives(string userId)
         {

@@ -3,14 +3,16 @@ using System.Threading.Tasks;
 using BCTApp.Helpers;
 using BCTApp.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
 namespace BCTApp
 {
-    public class DeleteHiveDialogViewModel : BindableBase, IDialogAware
+    public class DeleteHiveDialogViewModel : ViewModelBase, IDialogAware
     {
         private readonly IFirebaseHelper _firebaseHelper;
+        private readonly IEventAggregator _eventAggregator;
         private string _message;
 
         public string Message
@@ -27,9 +29,11 @@ namespace BCTApp
             set { SetProperty(ref _hive, value); }
         }
 
-        public DeleteHiveDialogViewModel(IFirebaseHelper firebaseHelper)
+        public DeleteHiveDialogViewModel(IFirebaseHelper firebaseHelper,
+            IEventAggregator eventAggregator)
         {
             _firebaseHelper = firebaseHelper;
+            _eventAggregator = eventAggregator;
             CloseDialogCommand = new DelegateCommand(()=> RequestClose(null));
             DeleteHiveCommand = new DelegateCommand(async () => await DeleteHive());
            
@@ -37,9 +41,17 @@ namespace BCTApp
         
         private async Task DeleteHive()
         {
-            RequestClose(new DialogParameters{{"deleted", Hive}});
 
+            IsSaving = true;
+            IsControlVisible = false;
             await _firebaseHelper.DeleteBeeHive(Settings.UID, Hive);
+            
+            _eventAggregator.GetEvent<UpdateHiveListEvent>().Publish(true);
+            
+            RequestClose(new DialogParameters{{"deleted", Hive}});
+            
+            IsSaving = false;
+            IsControlVisible = true;
 
         }
 

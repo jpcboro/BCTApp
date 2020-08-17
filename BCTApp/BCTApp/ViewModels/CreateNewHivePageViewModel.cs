@@ -9,7 +9,7 @@ using Prism.Services.Dialogs;
 
 namespace BCTApp
 {
-    public class CreateNewHivePageViewModel : BindableBase, IDialogAware
+    public class CreateNewHivePageViewModel : ViewModelBase, IDialogAware
     {
         private readonly IFirebaseHelper _firebaseHelper;
 
@@ -38,12 +38,18 @@ namespace BCTApp
 
             };
 
+             IsSaving = true;
+             IsControlVisible = false;
+             
              await _firebaseHelper.AddHive(Settings.UID, NewHive);
 
              RequestClose(new DialogParameters()
              {
                  {"savedHive", NewHive}
              });
+             
+             IsSaving = false;
+             IsControlVisible = true;
         }
 
         public Hive NewHive { get; set; }

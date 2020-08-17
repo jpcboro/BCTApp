@@ -5,17 +5,20 @@ using BCTApp.Helpers;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Xamarin.Forms;
+using Prism.Services;
+using DependencyService = Xamarin.Forms.DependencyService;
 
 namespace BCTApp
 {
-    public class LoginPageViewModel: BindableBase
+    public class LoginPageViewModel : ViewModelBase, IInitialize
     {
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _pageDialogService;
 
         private IFirebaseAuthentication _firebaseAuth;
-        
-        public  DelegateCommand LoginCommand => new DelegateCommand( async()=> await ExecuteLoginCommandAsync());
+
+        public DelegateCommand LoginCommand => new DelegateCommand(async () => await ExecuteLoginCommandAsync());
+
 
         private string _email;
 
@@ -30,19 +33,38 @@ namespace BCTApp
         public string Password
         {
             get { return _password; }
-            set { SetProperty(ref _password, value); }
+            set { SetProperty(ref _password, value);}
         }
 
-        public LoginPageViewModel(INavigationService navigationService)
+        public bool IsEnabled => !string.IsNullOrEmpty(_email);
+
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
             _navigationService = navigationService;
+            _pageDialogService = pageDialogService;
 
             _firebaseAuth = DependencyService.Get<IFirebaseAuthentication>();
+
+            if (!string.IsNullOrEmpty(Settings.UserEmail))
+            {
+                Email = Settings.UserEmail;
+            }
             
         }
-        
+
+    
+
         private  async Task ExecuteLoginCommandAsync()
         {
+            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            {
+                await _pageDialogService.DisplayAlertAsync("Error", "Please fill up username or password", "Ok");
+
+                return;
+
+            }
+
+            IsSaving = true;
             string uid = await _firebaseAuth.LoginWithEmailAndPassword(Email, Password);
             if (uid != String.Empty)
             {
@@ -50,12 +72,21 @@ namespace BCTApp
                 Settings.UID = uid;
                 var navParams = new NavigationParameters();
                 navParams.Add(ParameterConstants.UID, uid);
-                await _navigationService.NavigateAsync(PageConstants.MapPage, navParams);
-
+                await _navigationService.NavigateAsync(PageConstants.MainTabbedPage, navParams);
+                
+            }
+            else
+            {
+                await _pageDialogService.DisplayAlertAsync("Alert", "Wrong email or password", "Ok");
             }
 
+            IsSaving = false;
         }
+        
+        public void Initialize(INavigationParameters parameters)
+        {
 
-       
+           
+        }
     }
 }

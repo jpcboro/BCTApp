@@ -1,4 +1,5 @@
 ﻿using System;
+using BCTApp.Contants;
 using BCTApp.Helpers;
 using Prism;
 using Prism.DryIoc;
@@ -18,25 +19,34 @@ namespace BCTApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MainTabbedPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
-            containerRegistry.RegisterDialog<TestDialog, TestDialogViewModel>();
+            containerRegistry.RegisterForNavigation<HiveListPage, HiveListPageViewModel>();
             containerRegistry.RegisterDialog<DeleteHiveDialog, DeleteHiveDialogViewModel>();
             containerRegistry.RegisterDialog<CreateNewHivePage, CreateNewHivePageViewModel>();
             containerRegistry.RegisterDialog<MoveHivePage, MoveHivePageViewModel>();
             containerRegistry.Register<IFirebaseHelper, FirebaseHelper>();
-
-
+            
         }
 
         protected override async void OnInitialized()
         {
+            Device.SetFlags(new[] { "Brush_Experimental" });
+
             InitializeComponent();
 
+
+
             if (Settings.IsLoggedIn)
-                await NavigationService.NavigateAsync("MapPage");
+            {
+                await NavigationService.NavigateAsync(PageConstants.MainTabbedPage);
+            }
             else
-                await NavigationService.NavigateAsync("LoginPage");
+            {
+                await NavigationService.NavigateAsync(PageConstants.LoginPage);
+
+            }
         }
 
         protected override void OnStart()
