@@ -9,6 +9,7 @@ using Android.OS;
 using Prism;
 using Prism.Ioc;
 using Firebase;
+using Android;
 
 namespace BCTApp.Droid
 {
@@ -27,6 +28,11 @@ namespace BCTApp.Droid
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
             FirebaseApp.InitializeApp(Application.Context);
             LoadApplication(new App(new AndroidInitializer()));
+
+            if (CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted)
+            {
+                RequestPermissions(new string[] { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation }, 0);
+            }
         }
         
      
@@ -36,6 +42,8 @@ namespace BCTApp.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+
     }
     
     public class AndroidInitializer : IPlatformInitializer
