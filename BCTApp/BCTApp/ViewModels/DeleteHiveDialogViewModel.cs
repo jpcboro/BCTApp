@@ -74,7 +74,7 @@ namespace BCTApp
             
             Hive = parameters.GetValue<Hive>("message");
 
-            Message = $"Pin clicked is {Hive.HiveName}";
+            Message = $"Hive clicked is {Hive.HiveName}";
 
         }
 

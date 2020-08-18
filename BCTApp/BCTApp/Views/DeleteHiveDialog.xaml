@@ -9,7 +9,7 @@
     <StackLayout Spacing="10" IsVisible="{Binding IsControlVisible}">
         <Label Text="{Binding Message}"
         />
-        <Button Text="Delete Marker" Command="{Binding DeleteHiveCommand}" 
+        <Button Text="Delete Hive Marker" Command="{Binding DeleteHiveCommand}" 
                 BackgroundColor="Coral"
                 TextColor="White" />
           

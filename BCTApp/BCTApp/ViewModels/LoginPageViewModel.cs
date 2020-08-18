@@ -70,9 +70,8 @@ namespace BCTApp
             {
                 Settings.UserEmail = Email;
                 Settings.UID = uid;
-                var navParams = new NavigationParameters();
-                navParams.Add(ParameterConstants.UID, uid);
-                await _navigationService.NavigateAsync(PageConstants.MainTabbedPage, navParams);
+               
+                await _navigationService.NavigateAsync(PageConstants.MainTabbedPage);
                 
             }
             else

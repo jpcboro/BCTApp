@@ -92,6 +92,15 @@ namespace BCTApp
                 _eventAggregator.GetEvent<UpdateHiveListEvent>().Publish(true);
                 
                 AddHiveOnMap(newHive);
+                Device.StartTimer(TimeSpan.FromMilliseconds(100),  () =>
+                {
+                    MoveToRegionReq.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(newHive.HiveLocation.Latitude,
+                        newHive.HiveLocation.Longitude), Distance.FromKilometers(8)));
+                    return false;
+                });
+                
+                
+            
             }
             
         }
@@ -108,6 +117,7 @@ namespace BCTApp
                     GetUserHives(Settings.UID);
                     
                 }
+               
             }
             
         }
@@ -172,7 +182,7 @@ namespace BCTApp
             var signOutOk = _firebaseAuth.SignOut();
             if (signOutOk)
             {
-                _navigationService.NavigateAsync("/LoginPage");
+                _navigationService.NavigateAsync(PageConstants.LoginPage);
                 Settings.UID = String.Empty;
                 
             }
@@ -353,18 +363,12 @@ namespace BCTApp
             {
                 _uid = Settings.UID;
             }
-            else
-            {
-                _uid = parameters.GetValue<string>(ParameterConstants.UID);
-
-            }
-            
-            
+         
             Device.StartTimer(TimeSpan.FromMilliseconds(500),  () =>
             {
                 GotoUserLocation();
                 GetUserHives(_uid);
-                var pins = Pins.Count;
+                
                 return false;
             });
         }
