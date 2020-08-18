@@ -7,20 +7,25 @@ using Prism;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
+using Xamarin.Essentials;
 
 namespace BCTApp
 {
-    public class HiveListPageViewModel : BindableBase, IActiveAware, INavigationAware, IInitialize
+    public class HiveListPageViewModel : ViewModelBase, IActiveAware, INavigationAware, IInitialize
     {
         private readonly IFirebaseHelper _firebaseHelper;
+        private readonly IPageDialogService _pageDialogService;
 
 
         private UpdateHiveListEvent _event;
 
         public HiveListPageViewModel(IFirebaseHelper firebaseHelper,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IPageDialogService pageDialogService)
         {
             _firebaseHelper = firebaseHelper;
+            _pageDialogService = pageDialogService;
 
             UserHives = new ObservableCollection<Hive>();
 
@@ -79,7 +84,15 @@ namespace BCTApp
 
         public void Initialize(INavigationParameters parameters)
         {
-          
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                IsControlVisible = false;
+            }
+            else
+            {
+                IsControlVisible = true;
+            }
         }
     }
 }

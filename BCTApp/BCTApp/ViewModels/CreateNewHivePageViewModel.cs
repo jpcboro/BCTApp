@@ -5,13 +5,17 @@ using BCTApp.Models;
 using ImTools;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services;
 using Prism.Services.Dialogs;
+using Xamarin.Essentials;
+using Location = BCTApp.Models.Location;
 
 namespace BCTApp
 {
     public class CreateNewHivePageViewModel : ViewModelBase, IDialogAware
     {
         private readonly IFirebaseHelper _firebaseHelper;
+        private readonly IPageDialogService _pageDialogService;
 
         private string _hiveName;
 
@@ -21,10 +25,12 @@ namespace BCTApp
             set { SetProperty(ref _hiveName, value); }
         }
 
-        public CreateNewHivePageViewModel(IFirebaseHelper firebaseHelper)
+        public CreateNewHivePageViewModel(IFirebaseHelper firebaseHelper,
+                                           IPageDialogService pageDialogService)
         {
             _firebaseHelper = firebaseHelper;
-            
+            _pageDialogService = pageDialogService;
+
             CloseDialogCommand = new DelegateCommand(()=> RequestClose(null));
             SaveNewHiveCommand = new DelegateCommand( () => SaveNewHive());
         }
@@ -38,6 +44,12 @@ namespace BCTApp
 
             };
 
+             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+             {
+                 await _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                 return;
+             }
+             
              IsSaving = true;
              IsControlVisible = false;
              

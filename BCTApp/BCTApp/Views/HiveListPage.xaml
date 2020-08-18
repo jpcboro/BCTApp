@@ -3,8 +3,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Hive List"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
              BackgroundColor="#ffeaa9"
              x:Class="BCTApp.HiveListPage">
     <ContentPage.Background>
@@ -18,8 +16,6 @@
     </ContentPage.Background>
     <ContentPage.Content>
         <StackLayout>
-            
-         
             <StackLayout.Margin>
                 <OnPlatform x:TypeArguments="Thickness">
                     <On Platform="iOS" Value="10,50,10,0"/>
@@ -33,7 +29,8 @@
                       Margin="0,20,0,0"
                       SeparatorVisibility="None"
                       BackgroundColor="Transparent"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      IsVisible="{Binding IsControlVisible}">
                <ListView.ItemTemplate>
                    <DataTemplate>
                        <ViewCell>

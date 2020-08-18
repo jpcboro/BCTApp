@@ -19,10 +19,10 @@ namespace BCTApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainTabbedPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<HiveListPage, HiveListPageViewModel>();
+            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterDialog<DeleteHiveDialog, DeleteHiveDialogViewModel>();
             containerRegistry.RegisterDialog<CreateNewHivePage, CreateNewHivePageViewModel>();
             containerRegistry.RegisterDialog<MoveHivePage, MoveHivePageViewModel>();

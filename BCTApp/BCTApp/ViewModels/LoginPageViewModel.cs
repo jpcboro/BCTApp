@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using Xamarin.Essentials;
 using DependencyService = Xamarin.Forms.DependencyService;
 
 namespace BCTApp
@@ -56,6 +57,12 @@ namespace BCTApp
 
         private  async Task ExecuteLoginCommandAsync()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                return;
+            }
+            
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
                 await _pageDialogService.DisplayAlertAsync("Error", "Please fill up username or password", "Ok");

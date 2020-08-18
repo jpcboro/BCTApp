@@ -5,7 +5,9 @@ using BCTApp.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Services;
 using Prism.Services.Dialogs;
+using Xamarin.Essentials;
 
 namespace BCTApp
 {
@@ -13,6 +15,7 @@ namespace BCTApp
     {
         private readonly IFirebaseHelper _firebaseHelper;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPageDialogService _pageDialogService;
         private string _message;
 
         public string Message
@@ -30,10 +33,12 @@ namespace BCTApp
         }
 
         public DeleteHiveDialogViewModel(IFirebaseHelper firebaseHelper,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IPageDialogService pageDialogService)
         {
             _firebaseHelper = firebaseHelper;
             _eventAggregator = eventAggregator;
+            _pageDialogService = pageDialogService;
             CloseDialogCommand = new DelegateCommand(()=> RequestClose(null));
             DeleteHiveCommand = new DelegateCommand(async () => await DeleteHive());
            
@@ -41,6 +46,12 @@ namespace BCTApp
         
         private async Task DeleteHive()
         {
+            
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                return;
+            }
 
             IsSaving = true;
             IsControlVisible = false;

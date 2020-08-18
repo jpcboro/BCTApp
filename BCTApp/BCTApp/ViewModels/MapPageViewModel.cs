@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -12,21 +13,24 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using Prism.Services.Dialogs;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Xamarin.Forms.GoogleMaps.Bindings;
+using DependencyService = Xamarin.Forms.DependencyService;
 using Location = BCTApp.Models.Location;
 
 namespace BCTApp
 {
-    public class MapPageViewModel : BindableBase, IInitialize, INavigatedAware, IInitializeAsync, IActiveAware
+    public class MapPageViewModel : ViewModelBase, IInitialize, INavigatedAware, IInitializeAsync, IActiveAware
     {
         private readonly INavigationService _navigationService;
         private readonly IFirebaseHelper _firebaseHelper;
         private readonly IDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPageDialogService _pageDialogService;
         private string _uid;
 
         private ObservableCollection<Pin> _pins;
@@ -155,12 +159,14 @@ namespace BCTApp
         public MapPageViewModel(INavigationService navigationService,
             IFirebaseHelper firebaseHelper,
             IDialogService dialogService,
-            IEventAggregator eventAggregator
+            IEventAggregator eventAggregator,
+            IPageDialogService pageDialogService
         )
         {
             _navigationService = navigationService;
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
+            _pageDialogService = pageDialogService;
             _firebaseHelper = firebaseHelper;
             
             _firebaseAuth = DependencyService.Get<IFirebaseAuthentication>();
@@ -177,8 +183,15 @@ namespace BCTApp
 
         public DelegateCommand LogOutCommand { get; set; }
 
-        private void LogOut()
+        private async void LogOut()
         {
+            
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                return;
+            }
+            
             var signOutOk = _firebaseAuth.SignOut();
             if (signOutOk)
             {
@@ -317,7 +330,6 @@ namespace BCTApp
                     });
                 }
                 
-              
                 MoveToRegionReq.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(location.Latitude,
                 location.Longitude), Distance.FromKilometers(10)));
             }
@@ -331,6 +343,13 @@ namespace BCTApp
 
         private async Task GetUserHives(string uid)
         {
+            
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                return;
+            }
+            
             var userHives = await _firebaseHelper.GetAllUserHives(uid);
             if (Pins.Any())
             {
@@ -359,18 +378,30 @@ namespace BCTApp
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (!string.IsNullOrEmpty(Settings.UID))
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                _uid = Settings.UID;
+                _pageDialogService.DisplayAlertAsync("No Internet", "Please check your internet connection and try again.", "Ok");
+                IsControlVisible = false;
             }
-         
-            Device.StartTimer(TimeSpan.FromMilliseconds(500),  () =>
+            else
             {
-                GotoUserLocation();
-                GetUserHives(_uid);
+                IsControlVisible = true;
+                if (!string.IsNullOrEmpty(Settings.UID))
+                {
+                    _uid = Settings.UID;
+                }
+         
+                Device.StartTimer(TimeSpan.FromMilliseconds(500),  () =>
+                {
+                    GotoUserLocation();
+                    GetUserHives(_uid);
                 
-                return false;
-            });
+                    return false;
+                });
+            }
+            
+            
+          
         }
 
         public async Task InitializeAsync(INavigationParameters parameters)
