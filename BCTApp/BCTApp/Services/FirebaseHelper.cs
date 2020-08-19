@@ -72,21 +72,51 @@ namespace BCTApp
                 .OnceAsync<Hive>())
                 .FirstOrDefault(x => x.Object.HiveName == hive.HiveName);
 
-            await firebase.Child($"BeeHives/{userId}")
-                .Child(toUpdateHive.Key)
-                .PutAsync(new Hive()
+            await Policy.Handle<HttpRequestException>(ex =>
                 {
-                    HiveName = hive.HiveName,
-                    HiveLocation = hive.HiveLocation
-                });
+                    Debug.WriteLine($"{ex.Message}");
+                    return true;
+                })
+                .WaitAndRetryAsync(
+                    retryCount: 5,
+                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                    onRetry: (ex, time) =>
+                    {
+                        Console.WriteLine($"Something went wrong: {ex.Message}, retrying...");
+                    }
+                ).ExecuteAsync(async () => await firebase.Child($"BeeHives/{userId}")
+                    .Child(toUpdateHive.Key)
+                    .PutAsync(new Hive()
+                    {
+                        HiveName = hive.HiveName,
+                        HiveLocation = hive.HiveLocation
+                    }));
         }
 
         public async Task DeleteBeeHive(string userId,  Hive hive)
         {
+            // var hiveToDelete = (await firebase.Child($"BeeHives/{userId}")
+            //     .OnceAsync<Hive>()).Where(a => a.Object.HiveName == hive.HiveName).FirstOrDefault();
+            
             var hiveToDelete = (await firebase.Child($"BeeHives/{userId}")
-                .OnceAsync<Hive>()).Where(a => a.Object.HiveName == hive.HiveName).FirstOrDefault();
+                .OnceAsync<Hive>()).FirstOrDefault(a => a.Object.HiveName == hive.HiveName);
 
-            await firebase.Child($"BeeHives/{userId}").Child(hiveToDelete.Key).DeleteAsync();
+            await Policy.Handle<HttpRequestException>(ex =>
+                {
+                    Debug.WriteLine($"{ex.Message}");
+                    return true;
+                })
+                .WaitAndRetryAsync(
+                    retryCount: 5,
+                    sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                    onRetry: (ex, time) =>
+                    {
+                        Console.WriteLine($"Something went wrong: {ex.Message}, retrying...");
+                    }
+                ).ExecuteAsync(async () =>
+                    await firebase.Child($"BeeHives/{userId}")
+                        .Child(hiveToDelete.Key).DeleteAsync()
+                );
 
         }
     }
